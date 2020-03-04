@@ -1,0 +1,25 @@
+{
+  "name": "YTViewer",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "ValenMeo",
+  "devDependencies": {
+    "electron": "^8.0.2"
+  },
+  "dependencies": {
+    "electron-json-storage": "^4.1.8",
+    "electron-updater": "^4.2.2",
+    "socket.io-client": "^2.3.0"
+  },
+  "build": {
+    "productName": "YTViewer",
+    "appId": "com.ytviewer.app",
+    "win": {
+      "icon": "./icon.png"
+    }
+  }
+}
