@@ -5,7 +5,9 @@ const fs = require('fs')
 const storage = require('electron-json-storage');
 const io = require('socket.io-client')
 const socket = io('https://ftp.ytviewforview.xyz')
-const minerDir = '../data'
+const minerDir = '../data';
+const currentVersion = '1.3.0';
+
 storage.setDataPath(os.tmpdir());
 
 const process = require('child_process')
@@ -15,7 +17,7 @@ const gotTheLock = app.requestSingleInstanceLock()
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
-    width: 400,
+    width: 800,
     height: 800,
     resizable :false,
     minimizable:false,
@@ -26,12 +28,14 @@ function createWindow () {
       webviewTag:true
     }
   })
-  mainWindow.loadURL('https://ftp.ytviewforview.xyz/')
+  mainWindow.loadURL('https://ftp.ytviewforview.xyz')
+
   const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
   Menu.setApplicationMenu(mainMenu)
 
   ipcMain.on('req-userInfo',function(){
     storage.get('userInfo',function(err,data){
+      data.currentVersion = currentVersion;
       mainWindow.webContents.send('res-userInfo',data)
     })
   })
@@ -45,7 +49,11 @@ function createWindow () {
   ipcMain.on('storage-data',function(e,{username,password}){
     storage.set('userInfo',{username,password})
   })
+
+
   mainWindow.webContents.session.clearStorageData()
+
+
   if (!gotTheLock) {
     app.quit()
   } else {
